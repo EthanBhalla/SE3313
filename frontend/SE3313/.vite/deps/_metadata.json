@@ -2,6 +2,7 @@
   "hash": "924d20e8",
   "configHash": "df3d7c9c",
   "lockfileHash": "7654cc0f",
+
   "browserHash": "15ffc7f6",
   "optimized": {
     "react": {
@@ -22,4 +23,5 @@
       "file": "chunk-Y455YYDO.js"
     }
   }
+
 }
