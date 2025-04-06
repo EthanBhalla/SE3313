@@ -48,7 +48,7 @@ void before_handle(crow::request& req, crow::response& res, context&)
 void after_handle(crow::request& /*req*/, crow::response& res, context&)
 {
     // Ensure that every response has the CORS headers as well
-    res.add_header("Access-Control-Allow-Origin", "*");
+  //  res.add_header("Access-Control-Allow-Origin", "*");
 }
 };
 

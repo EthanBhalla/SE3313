@@ -13,7 +13,7 @@ export default function Home() {
 
     useEffect(() => {
         setLoading(true);
-        fetch('http://localhost:8080/api/auctions')
+        fetch('http://localhost:8080/auctions')
             .then(res => {
                 if (!res.ok) throw new Error('Failed to fetch auctions');
                 return res.json();
