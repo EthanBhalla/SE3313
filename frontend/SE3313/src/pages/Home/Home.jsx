@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import AuctionItem from '../components/AuctionItem/AuctionItem';
+import AuctionItem from '../../components/AuctionItem/AuctionItem';
 import { BiSearch } from 'react-icons/bi';
 
 export default function Home() {
@@ -13,7 +13,7 @@ export default function Home() {
 
     useEffect(() => {
         setLoading(true);
-        fetch('http://localhost:8080/api/auctions')
+        fetch('http://localhost:8080/auctions')
             .then(res => {
                 if (!res.ok) throw new Error('Failed to fetch auctions');
                 return res.json();

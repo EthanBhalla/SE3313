@@ -1,0 +1,174 @@
+/* Dark theme styles for login page */
+* {
+    box-sizing: border-box;
+}
+
+.login-container h2,
+.login-container label,
+.login-container input,
+.login-container button {
+    color: #ffffff;
+}
+
+body,
+html,
+#root {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Override the body style from index.css for login page */
+body {
+    display: block !important;
+    /* Override the flex display */
+    place-items: normal !important;
+    /* Override place-items */
+    min-width: 100% !important;
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 100vh;
+    padding: 20px;
+    background-color: #242424;
+    color: #ffffff;
+    /* Changed to pure white */
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.login-card {
+    width: 100%;
+    background-color: #1a1a1a;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    padding: 40px;
+    color: #ffffff;
+    /* Changed to pure white */
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #ffffff;
+    font-size: 28px;
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #ffffff;
+    /* Changed to pure white */
+    font-size: 16px;
+}
+
+input {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #444;
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: #2a2a2a;
+    color: #ffffff;
+    /* Changed to pure white */
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+    /* Light white for placeholders */
+}
+
+input:focus {
+    border-color: #646cff;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(100, 108, 255, 0.3);
+}
+
+.login-button {
+    width: 100%;
+    padding: 15px;
+    background-color: #646cff;
+    color: #ffffff;
+    /* Changed to pure white */
+    border: 1px solid transparent;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.25s, border-color 0.25s;
+    margin-top: 10px;
+}
+
+.login-button:hover {
+    border-color: #646cff;
+    background-color: #535bf2;
+}
+
+.login-button:disabled {
+    background-color: #4a4a5e;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.error-message {
+    background-color: rgba(220, 38, 38, 0.2);
+    color: #ffffff;
+    /* Changed to pure white */
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 25px;
+    text-align: center;
+    font-size: 16px;
+    border: 1px solid rgba(220, 38, 38, 0.5);
+}
+
+.login-footer {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.login-footer p {
+    margin: 10px 0;
+    color: #ffffff;
+    /* Changed to pure white */
+    font-size: 16px;
+}
+
+.login-footer a {
+    color: #a5a9ff;
+    /* Made links a lighter purple for better contrast with white text */
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.login-footer a:hover {
+    color: #c4c6ff;
+    /* Even lighter on hover */
+    text-decoration: underline;
+}
+
+/* Media queries for responsive design */
+@media (min-width: 768px) {
+    .login-card {
+        max-width: 80%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .login-card {
+        max-width: 60%;
+    }
+}
