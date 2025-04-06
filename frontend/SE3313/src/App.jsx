@@ -4,6 +4,7 @@ import Home from './pages/Home/Home';
 import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
 import AuctionCenter from './pages/AuctionCenter/AuctionCenter';
+import AuctionItem from './components/AuctionItem/AuctionItem'; // Import your existing AuctionItem component
 import './App.css';
 
 // Protected Route component
@@ -108,6 +109,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <AuctionCenter />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/auction/:id"
+            element={
+              <ProtectedRoute>
+                <AuctionItem />
               </ProtectedRoute>
             }
           />

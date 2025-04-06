@@ -77,14 +77,12 @@ export default function AuctionCenter() {
     return (
         <div className="auction-page">
             <div className="auction-header">
+                <button onClick={() => navigate('/home')} className="back-btn">
+                    ← Back
+                </button>
                 <h1>Available Auctions</h1>
                 <div className="action-buttons">
-                    <Link to="/create-auction" className="create-btn">
-                        Create Auction
-                    </Link>
-                    <Link to="/home" className="home-btn">
-                        Back to Home
-                    </Link>
+                    {/* Back button moved to the left side */}
                 </div>
             </div>
 

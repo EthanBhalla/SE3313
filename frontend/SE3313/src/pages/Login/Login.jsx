@@ -12,7 +12,6 @@ const Login = ({ setIsAuthenticated }) => {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
-    // Test localStorage on component mount
     useEffect(() => {
         try {
             const testKey = '_test_storage_' + Date.now();
@@ -46,7 +45,7 @@ const Login = ({ setIsAuthenticated }) => {
             let fullResponse = response.data;
             let jwtToken = '';
 
-            // Check if response contains "Login successful. Token: "
+
             if (typeof fullResponse === 'string' && fullResponse.includes('Token:')) {
                 // Extract everything after "Token: "
                 const tokenMatch = fullResponse.match(/Token:\s*(.*)/);
