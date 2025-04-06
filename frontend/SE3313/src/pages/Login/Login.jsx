@@ -29,8 +29,8 @@ const Login = ({ setIsAuthenticated }) => {
             const response = await axios.post('http://localhost:8080/login', formData);
 
             // Store JWT token in localStorage
-            localStorage.setItem('token', response.data.token);
-            localStorage.setItem('username', formData.username);
+            sessionStorage.setItem('token', response.data.token);
+            sessionStorage.setItem('username', formData.username);
 
             // Update authentication state in parent component
             if (setIsAuthenticated) {
