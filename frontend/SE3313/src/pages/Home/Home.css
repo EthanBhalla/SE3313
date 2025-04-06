@@ -1,12 +1,18 @@
 :root {
-    --primary-color: #8a2be2;
-    --primary-dark: #6a1cb7;
-    --primary-light: #a05be5;
-    --secondary-color: #4f46e5;
-    --secondary-dark: #4338ca;
+    --primary-color: #2563eb;
+    /* Changed to blue */
+    --primary-dark: #1d4ed8;
+    /* Darker blue */
+    --primary-light: #3b82f6;
+    /* Lighter blue */
+    --secondary-color: #0284c7;
+    /* Teal blue for secondary */
+    --secondary-dark: #0369a1;
+    /* Darker teal blue */
     --text-light: #ffffff;
     --text-dark: #2d3748;
-    --background-light: #f7f9fc;
+    --background-light: #f0f9ff;
+    /* Lighter blue tinted background */
     --background-dark: #1a202c;
     --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
@@ -148,11 +154,14 @@
 }
 
 .feature-card {
-    background-color: #f8f9fa;
+    background-color: #f0f9ff;
+    /* Lighter blue background */
     border-radius: var(--border-radius);
     padding: 1.5rem;
     text-align: center;
     transition: transform var(--transition-speed);
+    border-top: 3px solid var(--primary-light);
+    /* Blue accent border */
 }
 
 .feature-card:hover {
@@ -162,13 +171,16 @@
 .feature-icon {
     font-size: 2rem;
     margin-bottom: 1rem;
+    color: var(--primary-color);
+    /* Blue icons */
 }
 
 .feature-card h3 {
     font-weight: 600;
     font-size: 1.125rem;
     margin-bottom: 0.5rem;
-    color: var(--text-dark);
+    color: var(--primary-dark);
+    /* Blue headings */
 }
 
 .feature-card p {

@@ -5,6 +5,8 @@ import './AuctionCenter.css';
 
 export default function AuctionCenter() {
     const [auctions, setAuctions] = useState([]);
+    const [filteredAuctions, setFilteredAuctions] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const token = localStorage.getItem('token');
@@ -27,6 +29,7 @@ export default function AuctionCenter() {
                 });
 
                 setAuctions(response.data);
+                setFilteredAuctions(response.data);
                 setError(null);
             } catch (err) {
                 setError('Failed to load auctions. ' + (err.response?.data || err.message));
@@ -42,6 +45,19 @@ export default function AuctionCenter() {
 
         fetchAuctions();
     }, [token, navigate]);
+
+    // Handle search functionality
+    useEffect(() => {
+        if (searchTerm.trim() === '') {
+            setFilteredAuctions(auctions);
+        } else {
+            const filtered = auctions.filter(auction =>
+                auction.item.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                auction.owner?.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+            setFilteredAuctions(filtered);
+        }
+    }, [searchTerm, auctions]);
 
     // Get a color class based on the auction id
     const getColorClass = (id) => {
@@ -77,24 +93,50 @@ export default function AuctionCenter() {
     return (
         <div className="auction-page">
             <div className="auction-header">
+                <button onClick={() => navigate('/home')} className="back-btn">
+                    ← Back
+                </button>
                 <h1>Available Auctions</h1>
                 <div className="action-buttons">
-                    <Link to="/create-auction" className="create-btn">
-                        Create Auction
-                    </Link>
-                    <Link to="/home" className="home-btn">
-                        Back to Home
-                    </Link>
+                    {/* Empty div to maintain layout */}
                 </div>
             </div>
 
-            {auctions.length === 0 ? (
+            <div className="search-container">
+                <div className="search-wrapper">
+                    <svg className="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input
+                        type="text"
+                        className="search-input"
+                        placeholder="Search auctions by item or seller..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                    {searchTerm && (
+                        <button
+                            className="clear-search"
+                            onClick={() => setSearchTerm('')}
+                        >
+                            ×
+                        </button>
+                    )}
+                </div>
+            </div>
+
+            {filteredAuctions.length === 0 ? (
                 <div className="no-auctions">
-                    <p>No auctions available at this time.</p>
+                    {searchTerm ? (
+                        <p>No auctions match your search for "{searchTerm}".</p>
+                    ) : (
+                        <p>No auctions available at this time.</p>
+                    )}
                 </div>
             ) : (
                 <div className="auction-grid">
-                    {auctions.map(auction => (
+                    {filteredAuctions.map(auction => (
                         <div key={auction.id} className={`auction-card ${getColorClass(auction.id)}`}>
                             <div className="auction-header-banner"></div>
                             <div className="auction-content">
