@@ -22,7 +22,37 @@ std::condition_variable cv;
 bool running = true;
 std::unordered_map<std::string, std::string> active_sessions;  // Active JWT sessions
 
-crow::SimpleApp app;
+struct CORS
+{
+// Per-request context (not used here, but required by Crow’s middleware interface)
+struct context {};
+
+// Called before each request is handled
+void before_handle(crow::request& req, crow::response& res, context&)
+{
+    // Always set the CORS headers
+    res.add_header("Access-Control-Allow-Origin", "*");
+    res.add_header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    res.add_header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
+    // If it’s an OPTIONS request, immediately return (typical CORS preflight behavior)
+    if (req.method == "OPTIONS"_method)
+    {
+        // You can use a 200 or 204 here; 204 = No Content
+        res.code = 204;
+        res.end();
+    }
+}
+
+// Called after each request is handled
+void after_handle(crow::request& /*req*/, crow::response& res, context&)
+{
+    // Ensure that every response has the CORS headers as well
+    res.add_header("Access-Control-Allow-Origin", "*");
+}
+};
+
+crow::App<CORS> app;
 
 // Function to execute SQL with transaction support
 bool executeTransaction(const std::vector<std::string>& queries) {

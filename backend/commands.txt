@@ -13,7 +13,6 @@ curl -X POST http://localhost:8080/create_auction \
      -H "Authorization: eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NDM5NjE1OTQsImlzcyI6ImF1Y3Rpb25fc3lzdGVtIiwic3ViIjoibXlVc2VybmFtZSJ9.B2kTX4XUThYxFO9VPUwuVidlerkG6dExb_ye2IZKAic" \
      -d '{"item": "Vintage Glass", "starting_price": 100.00, "end_datetime": "2025-04-29 12:30:00", "username":"myUsername"}'
 
-
 curl -X POST http://localhost:8080/bid \
      -H "Content-Type: application/json" \
      -H "Authorization: eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NDM5NjE1OTQsImlzcyI6ImF1Y3Rpb25fc3lzdGVtIiwic3ViIjoibXlVc2VybmFtZSJ9.B2kTX4XUThYxFO9VPUwuVidlerkG6dExb_ye2IZKAic" \
