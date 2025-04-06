@@ -1,0 +1,26 @@
+g++ -o server server.cpp -std=c++17 -pthread -lsqlite3 -lssl -lcrypto 
+
+curl -X POST http://localhost:8080/register \
+     -H "Content-Type: application/json" \
+     -d '{"username": "myUsername", "password": "myPassword"}'
+
+curl -X POST http://localhost:8080/login \
+     -H "Content-Type: application/json" \
+     -d '{"username": "myUsername", "password": "myPassword"}'
+
+curl -X POST http://localhost:8080/create_auction \
+     -H "Content-Type: application/json" \
+     -H "Authorization: eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NDM5NjE1OTQsImlzcyI6ImF1Y3Rpb25fc3lzdGVtIiwic3ViIjoibXlVc2VybmFtZSJ9.B2kTX4XUThYxFO9VPUwuVidlerkG6dExb_ye2IZKAic" \
+     -d '{"item": "Vintage Glass", "starting_price": 100.00, "end_datetime": "2025-04-29 12:30:00", "username":"myUsername"}'
+
+
+curl -X POST http://localhost:8080/bid \
+     -H "Content-Type: application/json" \
+     -H "Authorization: eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NDM5NjE1OTQsImlzcyI6ImF1Y3Rpb25fc3lzdGVtIiwic3ViIjoibXlVc2VybmFtZSJ9.B2kTX4XUThYxFO9VPUwuVidlerkG6dExb_ye2IZKAic" \
+     -d '{"auction_id": 1, "bidder": "myUsername", "bid_amount": 150.00}'
+
+curl -X GET http://localhost:8080/auction/1 \
+     -H "Authorization: eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NDM5NjE1OTQsImlzcyI6ImF1Y3Rpb25fc3lzdGVtIiwic3ViIjoibXlVc2VybmFtZSJ9.B2kTX4XUThYxFO9VPUwuVidlerkG6dExb_ye2IZKAic"
+
+curl -X GET http://localhost:8080/auctions \
+     -H "Authorization: eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NDM5NjE1OTQsImlzcyI6ImF1Y3Rpb25fc3lzdGVtIiwic3ViIjoibXlVc2VybmFtZSJ9.B2kTX4XUThYxFO9VPUwuVidlerkG6dExb_ye2IZKAic"
