@@ -11,6 +11,9 @@ export default function Home() {
     const [searchTerm, setSearchTerm] = useState('');
     const [sortBy, setSortBy] = useState('endingSoon');
 
+
+
+
     useEffect(() => {
         setLoading(true);
         fetch('http://localhost:8080/auctions')
