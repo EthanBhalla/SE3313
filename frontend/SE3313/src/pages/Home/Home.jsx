@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import AuctionItem from '../components/AuctionItem/AuctionItem';
+import AuctionItem from '../../components/AuctionItem/AuctionItem';
 import { BiSearch } from 'react-icons/bi';
 
 export default function Home() {
