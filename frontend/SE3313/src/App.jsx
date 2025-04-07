@@ -3,6 +3,9 @@ import { Routes, Route, Link, Navigate, useNavigate } from 'react-router-dom';
 import Home from './pages/Home/Home';
 import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
+import AuctionCenter from './pages/AuctionCenter/AuctionCenter';
+import AuctionItem from './components/AuctionItem/AuctionItem'; // Import your existing AuctionItem component
+import './App.css';
 
 // Protected Route component
 const ProtectedRoute = ({ children }) => {
@@ -18,7 +21,9 @@ const ProtectedRoute = ({ children }) => {
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const username = localStorage.getItem('username');
 
   // Check authentication status when component mounts
   useEffect(() => {
@@ -33,54 +38,100 @@ function App() {
     navigate('/login');
   };
 
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
   return (
-    <div className="p-4">
-      <header className="mb-6 flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Auction House</h1>
-        <nav>
-          {isAuthenticated ? (
-            <>
-              <Link to="/home" className="text-blue-500 mr-4">Home</Link>
-              <button
-                onClick={handleLogout}
-                className="text-red-500"
-              >
-                Logout
-              </button>
-            </>
-          ) : (
-            <>
-              <Link to="/login" className="text-blue-500 mr-4">Login</Link>
-              <Link to="/register" className="text-blue-500">Register</Link>
-            </>
-          )}
-        </nav>
+    <div className="app-container">
+      <header className="navbar">
+        <div className="navbar-container">
+          <div className="navbar-logo">
+            <Link to="/" className="logo-link">
+              <span className="logo-text">Auction House</span>
+            </Link>
+          </div>
+
+          {/* Mobile menu button */}
+          <button
+            className="mobile-menu-button"
+            onClick={toggleMobileMenu}
+            aria-label="Toggle menu"
+          >
+            <span className="menu-bar"></span>
+            <span className="menu-bar"></span>
+            <span className="menu-bar"></span>
+          </button>
+
+          {/* Navigation links */}
+          <nav className={`navbar-links ${isMobileMenuOpen ? 'active' : ''}`}>
+            {isAuthenticated ? (
+              <>
+                <Link to="/home" className="nav-link">Home</Link>
+                <Link to="/AuctionCenter" className="nav-link">Auctions</Link>
+                <div className="user-profile">
+                  <span className="username">{username || 'User'}</span>
+                  <button
+                    onClick={handleLogout}
+                    className="logout-button"
+                  >
+                    Logout
+                  </button>
+                </div>
+              </>
+            ) : (
+              <>
+                <Link to="/login" className="nav-link">Login</Link>
+                <Link to="/register" className="nav-link">Register</Link>
+              </>
+            )}
+          </nav>
+        </div>
       </header>
-      <Routes>
-        {/* Public routes */}
-        <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
-        <Route path="/register" element={<Register />} />
 
-        {/* Protected routes */}
-        <Route
-          path="/home"
-          element={
-            <ProtectedRoute>
-              <Home />
-            </ProtectedRoute>
-          }
-        />
+      <main className="main-content">
+        <Routes>
+          {/* Public routes */}
+          <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
+          <Route path="/register" element={<Register />} />
 
-        {/* Default route - redirect based on auth status */}
-        <Route
-          path="/"
-          element={
-            isAuthenticated ?
-              <Navigate to="/home" replace /> :
-              <Navigate to="/login" replace />
-          }
-        />
-      </Routes>
+          {/* Protected routes */}
+          <Route
+            path="/home"
+            element={
+              <ProtectedRoute>
+                <Home />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/AuctionCenter"
+            element={
+              <ProtectedRoute>
+                <AuctionCenter />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/auction/:id"
+            element={
+              <ProtectedRoute>
+                <AuctionItem />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Default route - redirect based on auth status */}
+          <Route
+            path="/"
+            element={
+              isAuthenticated ?
+                <Navigate to="/home" replace /> :
+                <Navigate to="/login" replace />
+            }
+          />
+        </Routes>
+      </main>
     </div>
   );
 }

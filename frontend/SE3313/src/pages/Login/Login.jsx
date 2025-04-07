@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import './Login.css';
@@ -11,6 +11,19 @@ const Login = ({ setIsAuthenticated }) => {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        try {
+            const testKey = '_test_storage_' + Date.now();
+            localStorage.setItem(testKey, 'test');
+            const testResult = localStorage.getItem(testKey);
+            localStorage.removeItem(testKey);
+
+
+        } catch (e) {
+            throw new Error('Error accessing localStorage: ' + e.message);
+        }
+    }, []);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -28,17 +41,34 @@ const Login = ({ setIsAuthenticated }) => {
         try {
             const response = await axios.post('http://localhost:8080/login', formData);
 
-            // Store JWT token in localStorage
-            sessionStorage.setItem('token', response.data.token);
-            sessionStorage.setItem('username', formData.username);
+            // Extract just the JWT token from the response
+            let fullResponse = response.data;
+            let jwtToken = '';
 
-            // Update authentication state in parent component
+
+            if (typeof fullResponse === 'string' && fullResponse.includes('Token:')) {
+                // Extract everything after "Token: "
+                const tokenMatch = fullResponse.match(/Token:\s*(.*)/);
+                if (tokenMatch && tokenMatch[1]) {
+                    jwtToken = tokenMatch[1].trim();
+                } else {
+                    throw new Error('Invalid token format received from server');
+                }
+            } else {
+                jwtToken = fullResponse;
+            }
+
+            // Store the clean JWT token and username
+            localStorage.setItem('token', jwtToken);
+            localStorage.setItem('username', formData.username);
+
+            // Update authentication state
             if (setIsAuthenticated) {
                 setIsAuthenticated(true);
             }
 
-            // Redirect to home page or dashboard
-            navigate('/');
+            // Navigate to home page
+            navigate('/home');
         } catch (err) {
             setError(
                 err.response?.data?.message ||
@@ -53,6 +83,8 @@ const Login = ({ setIsAuthenticated }) => {
         <div className="login-container">
             <div className="login-card">
                 <h2>Log In to Your Account</h2>
+
+
 
                 {error && <div className="error-message">{error}</div>}
 
