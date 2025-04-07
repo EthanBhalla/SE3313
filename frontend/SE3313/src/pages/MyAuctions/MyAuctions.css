@@ -366,11 +366,3 @@
         padding: 0.75rem 1rem 0.75rem 2.5rem;
     }
 }
-
-.view-details-btn.sold {
-    pointer-events: none;
-    cursor: default;
-    color: gray;
-    background-color: #ddd;
-    border: none;
-}

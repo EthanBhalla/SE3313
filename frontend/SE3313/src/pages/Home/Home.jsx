@@ -11,7 +11,7 @@ export default function Home() {
     };
 
     const navigateToMyAuctions = () => {
-        navigate('/auctions/my');
+        navigate('/MyAuctions');
     };
 
     return (
@@ -44,7 +44,7 @@ export default function Home() {
                         <span className="button-icon">📦</span>
                         <span className="button-text">
                             <span className="button-title">My Auctions</span>
-                            <span className="button-description">Manage your items and bids</span>
+                            <span className="button-description">Manage your listing</span>
                         </span>
                     </button>
                 </div>

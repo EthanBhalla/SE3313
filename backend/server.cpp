@@ -400,6 +400,53 @@ int main()
     res.end(); });
 
     // --------------------------------------------------------------------
+    // Gets all auction belonging to a user
+    // --------------------------------------------------------------------
+    CROW_ROUTE(app, "/auctionsByUser/<string>").methods("GET"_method)
+    ([](const crow::request& req, crow::response& res, const std::string& username)
+    {
+        std::string token = req.get_header_value("Authorization");
+        std::cout << "Token: " << token << std::endl;
+        if (!verifyToken(token)) {
+            res.code = 403;
+            res.write("Unauthorized.");
+            return res.end();
+        }
+    
+        const char* sql = "SELECT id, item, starting_price, highest_bid, highest_bidder, end_datetime, owner "
+                          "FROM auctions WHERE owner = ?;";
+        sqlite3_stmt* stmt;
+        if (sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr) != SQLITE_OK) {
+            res.code = 500;
+            res.write("Database error.");
+            return res.end();
+        }
+    
+        sqlite3_bind_text(stmt, 1, username.c_str(), -1, SQLITE_TRANSIENT);
+    
+        json result = json::array();
+        while (sqlite3_step(stmt) == SQLITE_ROW) {
+            json auction;
+            auction["id"]             = sqlite3_column_int(stmt, 0);
+            auction["item"]           = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
+            auction["starting_price"] = sqlite3_column_double(stmt, 2);
+            auction["highest_bid"]    = sqlite3_column_double(stmt, 3);
+            auction["highest_bidder"] = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 4));
+            const unsigned char* ed   = sqlite3_column_text(stmt, 5);
+            auction["end_datetime"]   = ed ? reinterpret_cast<const char*>(ed) : "";
+            const unsigned char* ow   = sqlite3_column_text(stmt, 6);
+            auction["owner"]          = ow ? reinterpret_cast<const char*>(ow) : "";
+            result.push_back(auction);
+        }
+    
+        sqlite3_finalize(stmt);
+    
+        res.code = 200;
+        res.write(result.dump());
+        res.end();
+    });
+    
+    // --------------------------------------------------------------------
     // Get details of a single auction
     // --------------------------------------------------------------------
     CROW_ROUTE(app, "/auction/<int>").methods("GET"_method)([](const crow::request &req, crow::response &res, int auction_id)

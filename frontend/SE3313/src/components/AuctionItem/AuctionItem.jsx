@@ -49,6 +49,13 @@ export default function AuctionItem() {
 
     const handlePlaceBid = async (e) => {
         e.preventDefault();
+        const checkChange = await axios.get(`http://localhost:8080/auction/${id}`, {
+            headers: {
+                'Authorization': token
+            }
+        });
+        setAuction(checkChange.data);
+
         setBidError('');
         setBidSuccess('');
 
