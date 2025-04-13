@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import './AuctionCenter.css';
+import './MyAuctions.css';
 
-export default function AuctionCenter() {
+export default function MyAuctions() {
     const [auctions, setAuctions] = useState([]);
     const [filteredAuctions, setFilteredAuctions] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
@@ -22,7 +22,7 @@ export default function AuctionCenter() {
                     throw new Error('No authentication token found');
                 }
 
-                const response = await axios.get('http://localhost:8080/auctions', {
+                const response = await axios.get(`http://localhost:8080/auctionsByUser/${username}`, {
                     headers: {
                         'Authorization': token
                     }
@@ -92,37 +92,16 @@ export default function AuctionCenter() {
 
     return (
         <div className="auction-page">
+       
             <div className="auction-header">
                 <button onClick={() => navigate('/home')} className="back-btn">
                     ← Back
                 </button>
-                <h1>Available Auctions</h1>
+                <h1>My Auctions</h1>
                 <div className="action-buttons">
-                    {/* Empty div to maintain layout */}
-                </div>
-            </div>
-
-            <div className="search-container">
-                <div className="search-wrapper">
-                    <svg className="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <circle cx="11" cy="11" r="8"></circle>
-                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                    </svg>
-                    <input
-                        type="text"
-                        className="search-input"
-                        placeholder="Search auctions by item or seller..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                    {searchTerm && (
-                        <button
-                            className="clear-search"
-                            onClick={() => setSearchTerm('')}
-                        >
-                            ×
-                        </button>
-                    )}
+            <Link to={`/NewListing`} className="create-btn">
+                Create Listing
+            </Link>
                 </div>
             </div>
 
@@ -160,13 +139,6 @@ export default function AuctionCenter() {
                                     </div>
 
                                     <div className="info-row">
-                                        <span className="info-label">Seller:</span>
-                                        <span className="info-value seller">
-                                            {auction.owner || 'Unknown'}
-                                        </span>
-                                    </div>
-
-                                    <div className="info-row">
                                         <span className="info-label">End Date:</span>
                                         <span className="info-value seller">
                                             {auction.end_datetime || 'Unknown'}
@@ -182,16 +154,6 @@ export default function AuctionCenter() {
                                                 ? `Highest bidder: ${auction.highest_bidder}`
                                                 : "No bids yet"}
                                     </div>
-                                    {new Date(auction.end_datetime) < new Date() ? (
-                                            <span className="view-details-btn sold">Auction Over</span>
-                                        ) : (
-                                            <Link
-                                                to={`/auction/${auction.id}`}
-                                                className="view-details-btn"
-                                            >
-                                                View Details
-                                            </Link>
-                                        )}
                                 </div>
                             </div>
                         </div>
